@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reto Químico Pro</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#game {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    margin: 20px auto;
+    width: 350px;
+    border-radius: 15px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #00c6ff;
+    color: black;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #0072ff;
+    color: white;
+}
+
+input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+#mensaje {
+    margin-top: 10px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧪 Reto Químico Pro</h1>
+
+<div id="game">
+    <p id="pregunta">Presiona "Iniciar"</p>
+    <input type="text" id="respuesta" placeholder="Tu respuesta aquí">
+    <br><br>
+    <button onclick="verificar()">Responder</button>
+    <button onclick="pista()">Pista</button>
+    <button onclick="iniciar()">Iniciar</button>
+
+    <p id="mensaje"></p>
+    <p>Puntos: <span id="puntos">0</span></p>
+</div>
+
+<script>
+const preguntas = [
+    {q: "¿Símbolo del Oxígeno?", r: "O", pista: "Es una sola letra"},
+    {q: "¿Número atómico del Carbono?", r: "6", pista: "Menor que 10"},
+    {q: "¿Fórmula del agua?", r: "H2O", pista: "Tiene hidrógeno y oxígeno"},
+    {q: "¿Elemento con símbolo Na?", r: "Sodio", pista: "Metal blando"},
+    {q: "¿Gas esencial para respirar?", r: "Oxigeno", pista: "Empieza con O"},
+    {q: "¿Símbolo del Oro?", r: "Au", pista: "Proviene del latín"},
+    {q: "¿Número atómico del Hidrógeno?", r: "1", pista: "El más pequeño"}
+];
+
+let actual = 0;
+let puntos = 0;
+
+function iniciar() {
+    actual = 0;
+    puntos = 0;
+    document.getElementById("puntos").textContent = puntos;
+    siguientePregunta();
+}
+
+function siguientePregunta() {
+    if (actual < preguntas.length) {
+        document.getElementById("pregunta").textContent = preguntas[actual].q;
+        document.getElementById("respuesta").value = "";
+        document.getElementById("mensaje").textContent = "";
+    } else {
+        document.getElementById("pregunta").textContent = "🎉 Juego terminado";
+        document.getElementById("mensaje").textContent = "Puntaje final: " + puntos;
+    }
+}
+
+function verificar() {
+    let resp = document.getElementById("respuesta").value.trim();
+
+    if (resp.toLowerCase() === preguntas[actual].r.toLowerCase()) {
+        puntos += 10;
+        document.getElementById("mensaje").textContent = "✅ Correcto";
+    } else {
+        document.getElementById("mensaje").textContent = "❌ Incorrecto (Era: " + preguntas[actual].r + ")";
+    }
+
+    document.getElementById("puntos").textContent = puntos;
+    actual++;
+    setTimeout(siguientePregunta, 1000);
+}
+
+function pista() {
+    document.getElementById("mensaje").textContent = "💡 " + preguntas[actual].pista;
+}
+</script>
+
+</body>
+</html>
